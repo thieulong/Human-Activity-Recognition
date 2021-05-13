@@ -23,7 +23,10 @@ samples_path = "test_sample_videos"
 
 total = 1
 frame_index = 1
-frame_skip_rate = 10
+frame_count = 0
+cur_angle = 0
+prev_angle = 90
+degree_up = False
 
 for video in os.listdir(samples_path):
     cap = cv2.VideoCapture(samples_path + "/" + video)
@@ -40,10 +43,21 @@ for video in os.listdir(samples_path):
         lmList = detector.findPosition(frame, draw=False)
         if lmList:
             # Our operations on the frame come here
-            if total % frame_skip_rate == 0:
-                cv2.imwrite("test_output_frames/frame" + str(frame_index) + ".png", frame)
-                frame_index += 1
-            total += 1
+            if frame_count % 5 == 0:
+                cur_angle = detector.findAngle(frame, 11, 13, 15, draw=False)
+                if degree_up:
+                    if (cur_angle < prev_angle) and (90 < cur_angle < 190):
+                        degree_up = False
+                        cv2.imwrite("test_output_frames/frame" + str(frame_index) + ".png", frame)
+                        frame_index += 1
+                else:
+                    if (cur_angle > prev_angle) and (0 < cur_angle < 140):
+                        degree_up = True
+                        cv2.imwrite("test_output_frames/frame" + str(frame_index) + ".png", frame)
+                        frame_index += 1
+                prev_angle = cur_angle
+
+            frame_count += 1
 
         # Display the resulting frame
         cv2.imshow('frame', frame)
