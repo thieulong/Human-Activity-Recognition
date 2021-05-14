@@ -17,15 +17,16 @@ def delete_all_file(folder):
             print('Failed to delete %s. Reason: %s' % (file_path, e))
 
 path = 'test_output_frames'
-delete_all_file(path)
+delete_all_file(path + "/up")
+delete_all_file(path + "/down")
 
 samples_path = "test_sample_videos"
 
 total = 1
 frame_index = 1
 frame_count = 0
-cur_angle = 0
-prev_angle = 90
+cur_left_angle, cur_right_angle = 0, 0
+prev_left_angle, prev_right_angle = 90, 90
 degree_up = False
 
 for video in os.listdir(samples_path):
@@ -38,24 +39,29 @@ for video in os.listdir(samples_path):
         success, frame = cap.read()
         if not success:
             break
+        frame = cv2.resize(frame, dsize=(1080, 720))
 
         frame = detector.findPose(frame, draw=False)
         lmList = detector.findPosition(frame, draw=False)
         if lmList:
-            # Our operations on the frame come here
+
+            mouth_left, mouth_right = lmList[9][2], lmList[10][2]
+            shoulder_left, shoulder_right = lmList[11][2], lmList[12][2]
+
             if frame_count % 5 == 0:
-                cur_angle = detector.findAngle(frame, 11, 13, 15, draw=False)
+                cur_left_angle = detector.findAngle(frame, 11, 13, 15, draw=False)
+                cur_right_angle = detector.findAngle(frame, 12, 14, 16, draw=False)
                 if degree_up:
-                    if (cur_angle < prev_angle) and (90 < cur_angle < 190):
+                    if ((cur_left_angle < prev_left_angle) and (90 < cur_left_angle < 190)) or ((cur_right_angle < prev_right_angle) and (90 < cur_right_angle < 190)):
                         degree_up = False
-                        cv2.imwrite("test_output_frames/frame" + str(frame_index) + ".png", frame)
+                        cv2.imwrite("test_output_frames/up/frame" + str(frame_index) + ".png", frame)
                         frame_index += 1
-                else:
-                    if (cur_angle > prev_angle) and (0 < cur_angle < 140):
+                elif mouth_left + mouth_right >= shoulder_left + shoulder_right:
+                    if ((cur_left_angle > prev_left_angle) and (0 < cur_left_angle < 140)) or ((cur_right_angle > prev_right_angle) and (0 < cur_right_angle < 140)):
                         degree_up = True
-                        cv2.imwrite("test_output_frames/frame" + str(frame_index) + ".png", frame)
+                        cv2.imwrite("test_output_frames/down/frame" + str(frame_index) + ".png", frame)
                         frame_index += 1
-                prev_angle = cur_angle
+                prev_left_angle = cur_left_angle
 
             frame_count += 1
 

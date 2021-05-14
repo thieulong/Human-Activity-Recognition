@@ -46,7 +46,11 @@ class poseDetector():
         a = math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
         b = math.sqrt((x2 - x3)**2 + (y2 - y3)**2)
         c = math.sqrt((x3 - x1)**2 + (y3 - y1)**2)
-        angle = math.degrees(math.acos((a**2 + b**2 - c**2) / (2*a*b)))
+
+        try:
+            angle = math.degrees(math.acos((a**2 + b**2 - c**2) / (2*a*b)))
+        except:
+            angle = 180
 
         if draw:
             cv2.circle(img, (x1, y1), 5, (255, 0, 0), cv2.FILLED)
