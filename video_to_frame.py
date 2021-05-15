@@ -21,6 +21,7 @@ delete_all_file(path + "/up")
 delete_all_file(path + "/down")
 
 samples_path = "test_sample_videos"
+destination_path = "test_output_frames"
 
 total = 1
 frame_index = 1
@@ -54,12 +55,12 @@ for video in os.listdir(samples_path):
                 if degree_up:
                     if ((cur_left_angle < prev_left_angle) and (90 < cur_left_angle < 190)) or ((cur_right_angle < prev_right_angle) and (90 < cur_right_angle < 190)):
                         degree_up = False
-                        cv2.imwrite("test_output_frames/up/frame" + str(frame_index) + ".png", frame)
+                        cv2.imwrite(destination_path + "/up/frame" + str(frame_index) + ".png", frame)
                         frame_index += 1
                 elif mouth_left + mouth_right >= shoulder_left + shoulder_right:
                     if ((cur_left_angle > prev_left_angle) and (0 < cur_left_angle < 140)) or ((cur_right_angle > prev_right_angle) and (0 < cur_right_angle < 140)):
                         degree_up = True
-                        cv2.imwrite("test_output_frames/down/frame" + str(frame_index) + ".png", frame)
+                        cv2.imwrite(destination_path + "/down/frame" + str(frame_index) + ".png", frame)
                         frame_index += 1
                 prev_left_angle = cur_left_angle
 
