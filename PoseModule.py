@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import time
 import math
+import numpy as np
 
 
 class poseDetector():
@@ -61,6 +62,24 @@ class poseDetector():
             cv2.putText(img, str(int(angle)), (x2 - 50, y2 + 50), cv2.FONT_HERSHEY_PLAIN, 2, (0, 0, 255), 2)
 
         return angle
+
+    def left(self):
+        return self.lmList[2][1] < self.lmList[28][1]
+
+    def findBoundingBox(self, img, draw=True):
+        np_lm_list = np.asarray(self.lmList)
+        min_x, max_x = np_lm_list[:,1].min(), np_lm_list[:,1].max()
+        min_y, max_y = np_lm_list[:,2].min() - 20, np_lm_list[:,2].max() + 10
+        if draw:
+            if self.left():
+                min_x -= 40
+                max_x += 10
+            else:
+                max_x += 40
+                min_x -= 10
+            img = cv2.rectangle(img, (min_x, min_y), (max_x, max_y), (255, 0, 0), 1)
+        return img, [min_x, min_y, max_x, max_y]
+
 
 
 def main():
