@@ -4,7 +4,14 @@ An application using Deep Learning and Diginal Signal Processing to both count t
 <a href="https://www.youtube.com/watch?v=JnRxwmSixk0&ab_channel=thinh5"><img src="images/demo.png"></a>
 
 ## 1. Install requirements  
-To run this, Python 3.7 or later need to be installed on your local machine. Along with that, install all dependencies using the requirements file:
+To run this, Python 3.7 or later need to be installed on your local machine, along with these dependencies:  
+- OpenCV
+- Mediapipe
+- Numpy
+- Keras
+- Matplotlib
+  
+You can install all using the requirements file:
 ```
 pip install -r requirements.txt
 ```
