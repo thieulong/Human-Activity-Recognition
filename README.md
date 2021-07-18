@@ -15,8 +15,13 @@ You can install all using the requirements file:
 ```
 pip install -r requirements.txt
 ```
-## 2. Demo
-Download pretrained models at [here](https://drive.google.com/drive/folders/1nKQMMo74NAo1TxBvTUw_DXn5L4eoLqwl) and replace the models in /models  
+## 2. Download pretrained models
+1. Download pretrained models at [here](https://drive.google.com/drive/folders/1nKQMMo74NAo1TxBvTUw_DXn5L4eoLqwl) and replace the existed models file in `/models` (if none are in `/models`, just place the downloaded models in) 
+3. Adjust the config.json file to the following:  
+- `model up file`: the model_up file you downloaded 
+- `model down file`: the model_down file you downloaded
+
+## 3. Demo
   
 Run demo app by:  
 ```
