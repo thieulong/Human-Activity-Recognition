@@ -1,5 +1,7 @@
 # Pushup Counting and Evaluating
-An application using Deep Learning and Diginal Signal Processing to both count the repetitions of a person doing pushup exercise and evaluate whether that person had done the pushup in correct or incorrect form.
+An application using Deep Learning and Diginal Signal Processing to both count the repetitions of a person doing pushup exercise and evaluate whether that person had done the pushup in correct or incorrect form.  
+
+<a href="https://www.youtube.com/watch?v=JnRxwmSixk0&ab_channel=thinh5"><img src="images/demo.png"></a>
 
 ## 1. Install requirements  
 To run this, Python 3.7 or later need to be installed on your local machine. Along with that, install all dependencies using the requirements file:
